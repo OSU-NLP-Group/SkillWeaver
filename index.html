@@ -372,9 +372,7 @@
                       <span class="icon">
                         <i class="fas fa-file-pdf"></i>
                       </span>
-                      <span
-                        >Paper
-                      </span>
+                      <span>Paper </span>
                     </a>
                   </span>
                   <span class="link-block">
@@ -400,9 +398,7 @@
                           ></path>
                         </svg>
                       </span>
-                      <span
-                        >Code
-                      </span>
+                      <span>Code </span>
                     </a>
                   </span>
                   <span class="link-block">
@@ -417,9 +413,7 @@
                           aria-hidden="true"
                         ></i>
                       </span>
-                      <span
-                        >Twitter
-                      </span>
+                      <span>Twitter </span>
                     </a>
                   </span>
                 </div>
@@ -717,9 +711,14 @@
               <p>We compare success and failure cases of the generated APIs.</p>
 
               <h3>API Generation</h3>
-              <pre
-                style="white-space: pre-wrap"
-              ><code class='language-python'>async def express_checkout(page):
+              <div>
+                <p>
+                  Here, the agent is able to generate a useful API to manage the
+                  process of checking out all items in a cart.
+                </p>
+                <pre
+                  style="white-space: pre-wrap"
+                ><code class='language-python'>async def express_checkout(page):
   """
   Perform an express checkout for the items currently in the cart.
 
@@ -748,16 +747,18 @@
   await page.get_by_role("button", name="Place Order").click()
   await asyncio.sleep(5)
 </code></pre>
+                <p>Images before (left) and after (right) API execution.</p>
 
-              <img
-                src="./static/images/api_examples/api_example_express_checkout_before.png"
-                style="width: min(48%, 500px)"
-              />
+                <img
+                  src="./static/images/api_examples/api_example_express_checkout_before.png"
+                  style="width: min(48%, 500px)"
+                />
 
-              <img
-                src="./static/images/api_examples/api_example_express_checkout_after.png"
-                style="width: min(48%, 500px)"
-              />
+                <img
+                  src="./static/images/api_examples/api_example_express_checkout_after.png"
+                  style="width: min(48%, 500px)"
+                />
+              </div>
 
               <h3>API Debugging</h3>
               <div>
@@ -991,7 +992,65 @@ Call log: ...</code></pre>
     <span class="hljs-keyword">await</span> asyncio.sleep(<span class="hljs-number">2</span>)</code>
                 </pre>
               </div>
+
+              <h3>Failure Cases</h3>
+              <div>
+                <h4>Failing to Use APIs</h4>
+                <p>
+                  Sometimes, the agent fails to utilize an API that it has
+                  generated. For example, on the website
+                  <code>cookpad.com</code>, the agent fails to call
+                  <code>search_recipes_by_cuisine_type('hamburger')</code> to
+                  gain recipe details.
+                </p>
+                <img
+                  src="./static/images/api_examples/failure_case_cook.png"
+                  alt="cookpad.com website"
+                  style="max-width: 1000px"
+                />
+
+                <h4>Using APIs Incorrectly</h4>
+                <p>
+                  Sometimes, website features (like search bars) have certain
+                  mechanics that the agent fails to grasp, but which could
+                  potentially be encoded in the documentation of the API. For
+                  example, here the agent calls
+                  <code>
+                    search_recipes_by_ingredients('chocolate chip, -nuts')
+                  </code>
+                  instead of
+                  <code>
+                    search_recipes_by_ingredients('chocolate chip without nuts') </code
+                  >. This causes search results containing nuts to be displayed,
+                  because this website doesn't use the "-" symbol in a search
+                  query to negatively filter by a keyword.
+                </p>
+                <img
+                  src="./static/images/api_examples/failure_case_cook_args.png"
+                  alt="cookpad.com website, with the search bar containing 'chocolate chip, -nuts'"
+                  style="max-width: 1000px"
+                />
+              </div>
+
+              <h3>Limitations</h3>
+              <div>
+                <p>
+                  While it is very promising to have Python APIs to navigate a
+                  website, and especially appealing to have an agent improve its
+                  performance simply by gaining more experience, there are some
+                  limitations. First of all, our method (like many others) uses
+                  the accessibility tree DOM to obtain a compressed or
+                  semantically meaningful text representation of the page.
+                  However, some websites fail to parse into a natural
+                  accessibility tree representation, which may hinder
+                  performance.
+                </p>
+              </div>
+
+              <!-- END case studies section -->
             </div>
+
+            <!-- END content -->
           </div>
         </div>
       </div>
