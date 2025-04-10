@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* 右侧导航栏的样式 */
+      .sidebar {
+        position: fixed;
+        top: 100px;
+        right: 0;
+        width: 220px;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        z-index: 1000; /* 增加 z-index 确保它在其他元素的上层 */
+      }
+      .sidebar:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      }
+      .sidebar h4 {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 15px;
+        color: #333;
+      }
+      .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      .sidebar ul li {
+        margin-bottom: 12px;
+      }
+      .sidebar ul li a {
+        text-decoration: none;
+        color: #555;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 10px;
+        display: block;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        border-radius: 5px;
+      }
+      .sidebar ul li a:hover {
+        background-color: #ff5722;
+        color: #ffffff;
+      }
+
+      @media (max-width: 1374px) {
+        .sidebar {
+          display: none;
+        }
+      }
+
+      table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        text-align: center; /* Horizontally center content */
+        vertical-align: middle; /* Vertically center content */
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: center; /* Horizontally center content */
+        vertical-align: middle; /* Vertically center content */
+        border: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+        text-align: center; /* Horizontally center content */
+        vertical-align: middle; /* Vertically center content */
+        font-weight: bold;
+      }
+      caption {
+        caption-side: top;
+        text-align: center;
+        font-weight: bold;
+        padding: 10px;
+        font-size: 20px;
+      }
+      /*tr:nth-child(even) {*/
+      /*    background-color: #f9f9f9;*/
+      /*    text-align: center;  !* Horizontally center content *!*/
+      /*    vertical-align: middle;  !* Vertically center content *!*/
+      /*}*/
+      .highlight {
+        font-weight: bold;
+        color: #ff5722;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+    <!--    <script src="https://kit.fontawesome.com/c221ce7c0d.js" crossorigin="anonymous"></script>-->
+    <link rel="stylesheet" href="./static/js/fontawesome.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://kit.fontawesome.com/f8ddf9854a.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Navigating the Digital World as Humans Do: Universal Visual Grounding for GUI Agents"
+    />
+    <meta
+      name="keywords"
+      content="UGround, SeeAct-V, MLLM, visual grounding, GUI agents, LMM, LMM Evaluation, Vision Language Model, Large Language Model, Large Multimodal Model, artificial intelligence, AI, AGI, artificial general intelligence"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SkillWeaver</title>
+
+    <link rel="icon" href="./static/images/skillweaver_icon.png" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css" />
+    <!--  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" href="./static/css/leaderboard.css" />
+
+    <script type="text/javascript" src="static/js/sort-table.js" defer></script>
+
+    <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <!--  <script src="./static/js/index.js"></script>-->
+    <!--  <script src="./static/js/question_card.js"></script>-->
+    <!--  <script src="./data/results/data_setting.js" defer></script>-->
+    <!--  <script src="./data/results/model_scores.js" defer></script>-->
+    <!--  <script src="./visualizer/data/data_public.js" defer></script>-->
+
+    <!-- https://highlightjs.org/ -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+
+    <style>
+      michael {
+        color: red;
+        font-weight: bold;
+      }
+
+      .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 右侧导航栏 -->
+    <div class="sidebar">
+      <h4>Results</h4>
+      <ul>
+        <li>
+          <a href="#WebArena">WebArena</a>
+        </li>
+        <li>
+          <a href="#OnlineMind2Web">Online Mind2Web</a>
+        </li>
+        <li><a href="#CaseStudies">Case Studies</a></li>
+      </ul>
+    </div>
+
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start" style="flex-grow: 1; justify-content: center">
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link"> More Research </a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="https://arxiv.org/abs/2405.14831">
+                HippoRAG
+              </a>
+              <a
+                class="navbar-item"
+                href="https://osu-nlp-group.github.io/SeeAct/"
+              >
+                SeeAct
+              </a>
+              <a
+                class="navbar-item"
+                href="https://osu-nlp-group.github.io/TravelPlanner/"
+              >
+                TravelPlanner
+              </a>
+              <a
+                class="navbar-item"
+                href="https://osu-nlp-group.github.io/Mind2Web/"
+              >
+                Mind2Web
+              </a>
+              <a class="navbar-item" href="https://mmmu-benchmark.github.io/">
+                MMMU
+              </a>
+              <a
+                class="navbar-item"
+                href="https://osu-nlp-group.github.io/MagicBrush/"
+              >
+                MagicBrush
+              </a>
+              <a
+                class="navbar-item"
+                href="https://tiger-ai-lab.github.io/MAmmoTH/"
+              >
+                Mammoth
+              </a>
+              <a
+                class="navbar-item"
+                href="https://osu-nlp-group.github.io/TableLlama/"
+              >
+                TableLlama
+              </a>
+              <a
+                href="https://osu-nlp-group.github.io/UGround/"
+                class="navbar-item"
+                >UGround</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title is-bold">
+                <img
+                  src="static/images/skillweaver_icon.png"
+                  style="width: 1.5em; vertical-align: middle"
+                  alt="Logo"
+                />
+                <span class="mmmu" style="vertical-align: middle"
+                  >SkillWeaver</span
+                >
+              </h1>
+              <h2 class="subtitle is-3 publication-subtitle">
+                Web Agents can Self-Improve by Discovering and Honing Skills
+              </h2>
+              <!-- <h3
+                class="subtitle is-4 publication-subtitle"
+                style="color: #ed4b82"
+              >
+                ICLR'25 Oral (1.8%)
+              </h3> -->
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="https://boyuanzheng010.github.io/">Boyuan Zheng</a
+                  ><sup>1</sup>*,</span
+                >
+                <span class="author-block">
+                  <a href="https://michaelfatemi.com/">Michael Y. Fatemi</a
+                  ><sup>2</sup>*,</span
+                >
+                <span class="author-block">
+                  <a href="https://www.linkedin.com/in/xiaolong-jin-514651284/"
+                    >Xiaolong Jin</a
+                  ><sup>3</sup>*,</span
+                >
+                <span class="author-block">
+                  <a href="https://zorazrw.github.io/">Zora Zhiruo Wang</a
+                  ><sup>4</sup>,</span
+                >
+                <span class="author-block">
+                  <a href="https://apga.github.io/">Apurva Gandhi</a
+                  ><sup>4</sup>,
+                </span>
+                <span class="author-block">
+                  <a href="https://yueqis.github.io/">Yueqi Song</a
+                  ><sup>4</sup>,
+                </span>
+                <span class="author-block">
+                  <a href="https://entslscheia.github.io/">Yu Gu</a
+                  ><sup>1</sup>,
+                </span>
+                <span class="author-block">
+                  <a href="https://www.linkedin.com/in/jayanthsrinivasa/"
+                    >Jayanth Srinivasa</a
+                  ><sup>5</sup>,</span
+                >
+                <span class="author-block">
+                  <a href="https://www.linkedin.com/in/gaowen-liu-1b52a610a/"
+                    >Gaowen Liu</a
+                  ><sup>5</sup>,</span
+                >
+                <span class="author-block">
+                  <a href="https://www.phontron.com/">Graham Neubig</a
+                  ><sup>4</sup>,</span
+                >
+                <span class="author-block">
+                  <a href="https://ysu1989.github.io/">Yu Su</a><sup>1</sup>
+                </span>
+              </div>
+
+              <br />
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"
+                  ><sup>1</sup>The Ohio State University</span
+                >&nbsp; &nbsp; &nbsp;
+                <span class="author-block"
+                  ><sup>2</sup>University of Virginia</span
+                >
+                <span class="author-block"><sup>3</sup>Purdue University</span>
+                <span class="author-block"
+                  ><sup>4</sup>Carnegie Mellon University</span
+                >
+                <span class="author-block"><sup>5</sup>Cisco Research</span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  {<a href="mailto:zheng.2372@osu.edu">zheng.2372</a>,
+                  <a href="mailto:su.809@osu.edu">su.809</a>}@osu.edu
+                </span>
+              </div>
+
+              <div class="is-size-6" style="margin-top: 1rem">
+                *Equal contribution.
+              </div>
+
+              <br />
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a
+                      href="https://arxiv.org/abs/2410.05243"
+                      target="_blank"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <!--                <a href="" target="_blank"-->
+                      <!--                   class="external-link button is-normal is-rounded is-dark">-->
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span
+                        >Paper
+                      </span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://github.com/OSU-NLP-Group/SkillWeaver"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon">
+                        <svg
+                          class="svg-inline--fa fa-github fa-w-16"
+                          aria-hidden="true"
+                          focusable="false"
+                          data-prefix="fab"
+                          data-icon="github"
+                          role="img"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 496 512"
+                          data-fa-i2svg=""
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
+                          ></path>
+                        </svg>
+                      </span>
+                      <span
+                        >Code
+                      </span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://x.com"
+                      target="_blank"
+                      class="external-link button is-normal is-rounded is-dark"
+                    >
+                      <span class="icon has-text-white">
+                        <i
+                          class="fa-brands fa-x-twitter"
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                      <span
+                        >Twitter
+                      </span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser">
+      <div class="container is-max-desktop">
+        <div class="box m-5">
+          <div class="content has-text-justified">
+            <p>
+              <b>SkillWeaver</b> collects skills as it learns to use websites,
+              and then uses those collected skills to improve its performance on
+              future tasks through a purely <b>self-driven curriculum</b>. We
+              demonstrate strong performance improvements on WebArena and on
+              live websites without requiring any parameter updates. SkillWeaver
+              represents skills as Python functions, which are initially
+              generated as generalized versions of past successful task attempts
+              and subsequently debugged through a
+              <b>trial-and-error process</b>.
+
+              <br />
+            </p>
+
+            <p>
+              <strong>Updates</strong>
+            </p>
+            <ul>
+              <li>
+                2025/04/09: Website is live. The initial manuscript and results
+                are available.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATASET SECTION -->
+    <section class="hero is-light is-small">
+      <div class="hero-body has-text-centered">
+        <h1 class="title is-1 mmmu">
+          <img
+            src="static/images/skillweaver_icon.png"
+            style="width: 1.5em; vertical-align: middle"
+            alt="Logo"
+          />
+          <span class="mmmu" style="vertical-align: middle">SkillWeaver</span>
+        </h1>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered has-text-centered">
+          <!-- <div class="column is-full-width has-text-centered"> -->
+          <div class="column is-four-fifths">
+            <!--        <div class="columns is-centered has-text-centered">-->
+            <!--        <div class="column is-four-fifths">-->
+
+            <h2 class="title is-3">Overview</h2>
+            <p class="has-text-centered">
+              <img
+                src="./static/images/skillweaver_main_figure.png"
+                alt="Main figure"
+                style="width: 1000px"
+              />
+            </p>
+            <div class="content has-text-justified">
+              <p>
+                <michael
+                  >TODO: Make this more appropriate for "overview" text. It is
+                  just from abstract right now.</michael
+                >
+
+                <!-- Copied from abstract. -->
+                In this work, we introduce <b>SkillWeaver</b>, a skill-centric
+                framework enabling agents to self-improve by autonomously
+                synthesizing reusable skills as APIs. Given a new website, the
+                agent
+                <b>
+                  autonomously discovers skills, executes them for practice, and
+                  distills practice experiences into robust APIs</b
+                >. Iterative exploration continually expands a library of
+                lightweight, plug-and-play APIs, significantly enhancing the
+                agent's capabilities. Experiments on WebArena and real-world
+                websites demonstrate the efficacy of <b>SkillWeaver</b>,
+                achieving
+                <b>relative success rate improvements of 31.8% and 39.8%</b>,
+                respectively. Additionally, APIs synthesized by strong agents
+                substantially enhance weaker agents through transferable skills,
+                yielding improvements of up to 54.3% on WebArena.
+              </p>
+            </div>
+
+            <h2 class="title is-3">WebArena Experiments</h2>
+            <div class="content has-text-justified">
+              <p>
+                The high-quality grounding data synthesized from web (9M
+                elements from <strong>Web-Hybrid</strong>) effectively helps
+                UGround generalize to Desktop and Mobile UIs, making UGround
+                outperform previous SOTA SeeClick on every platform and element
+                type on ScreenSpot.
+              </p>
+
+              <table id="WebArena">
+                <caption>
+                  WebArena
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Gitlab</th>
+                    <th>Map</th>
+                    <th>Shopping</th>
+                    <th>CMS</th>
+                    <th>Reddit</th>
+                    <th>AVG.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>WebArena</td>
+                    <td>15.0</td>
+                    <td>15.6</td>
+                    <td>13.9</td>
+                    <td>10.4</td>
+                    <td>6.6</td>
+                    <td>12.3</td>
+                  </tr>
+                  <tr>
+                    <td>AutoEval</td>
+                    <td>25.0</td>
+                    <td>27.5</td>
+                    <td>39.6</td>
+                    <td>20.9</td>
+                    <td>20.8</td>
+                    <td>26.9</td>
+                  </tr>
+                  <tr>
+                    <td>*SteP</td>
+                    <td>32.0</td>
+                    <td>30.0</td>
+                    <td>37.0</td>
+                    <td>24.0</td>
+                    <td>59.0</td>
+                    <td>33.0</td>
+                  </tr>
+
+                  <tr>
+                    <td
+                      colspan="7"
+                      style="background-color: #ddd; text-align: center"
+                    >
+                      <strong>SKILLWEAVER</strong>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>GPT-4o</td>
+                    <td>17.8</td>
+                    <td>27.5</td>
+                    <td>19.8</td>
+                    <td>18.7</td>
+                    <td>37.7</td>
+                    <td>22.6</td>
+                  </tr>
+                  <tr>
+                    <td>+ Skills</td>
+                    <td>22.2</td>
+                    <td>33.9</td>
+                    <td>27.2</td>
+                    <td>25.8</td>
+                    <td>50.0</td>
+                    <td>29.8</td>
+                  </tr>
+                  <tr>
+                    <td>Δ</td>
+                    <td style="background-color: rgba(0, 255, 0, 0.25)">
+                      ↑ 25%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0.23)">
+                      ↑ 23%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0.38)">
+                      ↑ 38%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0.38)">
+                      ↑ 38%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0.33)">
+                      ↑ 33%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0.32)">
+                      ↑ 32%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>GPT-4o-mini</td>
+                    <td>6.1</td>
+                    <td>10.3</td>
+                    <td>11.8</td>
+                    <td>3.3</td>
+                    <td>18.9</td>
+                    <td>9.2</td>
+                  </tr>
+                  <tr>
+                    <td>+ Skills</td>
+                    <td>8.9</td>
+                    <td>16.7</td>
+                    <td>17.1</td>
+                    <td>7.7</td>
+                    <td>26.4</td>
+                    <td>14.1</td>
+                  </tr>
+                  <tr>
+                    <td>Δ</td>
+                    <td style="background-color: rgba(0, 255, 0, 0.46)">
+                      ↑ 46%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0.62)">
+                      ↑ 62%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0.46)">
+                      ↑ 46%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 1)">↑ 133%</td>
+                    <td style="background-color: rgba(0, 255, 0, 0.4)">
+                      ↑ 40%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0.45)">
+                      ↑ 45%
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <h2 class="title is-3">Live Website Experiments</h2>
+            <div class="content has-text-justified">
+              <table id="OnlineMind2Web">
+                <caption>
+                  Online-Mind2Web
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Drug</th>
+                    <th>Flight</th>
+                    <th>Cooking</th>
+                    <th>Car</th>
+                    <th>AVG.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Baseline</td>
+                    <td>65.0</td>
+                    <td>11.7</td>
+                    <td>62.5</td>
+                    <td>11.1</td>
+                    <td>40.2</td>
+                  </tr>
+                  <tr>
+                    <td>+ Skills</td>
+                    <td>87.0</td>
+                    <td>29.4</td>
+                    <td>75.0</td>
+                    <td>11.1</td>
+                    <td>56.2</td>
+                  </tr>
+                  <tr>
+                    <td>Δ</td>
+                    <td style="background-color: rgba(0, 255, 0, 0.34)">
+                      ↑ 34%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 1)">↑ 151%</td>
+                    <td style="background-color: rgba(0, 255, 0, 0.2)">
+                      ↑ 20%
+                    </td>
+                    <td style="background-color: rgba(0, 255, 0, 0)">↑ 0%</td>
+                    <td style="background-color: rgba(0, 255, 0, 0.4)">
+                      ↑ 40%
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2 class="title is-3" id="CaseStudies">Case Studies</h2>
+            <div class="content has-text-justified">
+              <p>We compare success and failure cases of the generated APIs.</p>
+
+              <h3>API Generation</h3>
+              <pre
+                style="white-space: pre-wrap"
+              ><code class='language-python'>async def express_checkout(page):
+  """
+  Perform an express checkout for the items currently in the cart.
+
+  Args:
+      page: The Playwright page object to perform actions on.
+
+  Usage Log:
+  - Successfully completed express checkout, resulting in an order confirmation page with order number 000000191.
+  - Initial attempts failed due to a timeout error when clicking 'Proceed to Checkout'. Resolved by ensuring items were in the cart.
+
+  Note:
+  - Ensure that the cart is pre-filled with the desired items before calling this function.
+  - The function assumes that the 'Proceed to Checkout' button is visible and clickable from the cart page.
+  - The function navigates through the checkout process by clicking 'Next' on the Shipping page and 'Place Order' on the Review & Payments page.
+  - If the 'Place Order' button is not immediately visible, a delay is included to allow dynamic elements to load.
+  """
+  import asyncio
+
+  await page.goto("/")
+  await page.get_by_role("link", name="My Cart").click()
+  await asyncio.sleep(5)
+  await page.get_by_role("button", name="Proceed to Checkout").click()
+  await asyncio.sleep(5)
+  await page.get_by_role("button", name="Next").click()
+  await asyncio.sleep(5)
+  await page.get_by_role("button", name="Place Order").click()
+  await asyncio.sleep(5)
+</code></pre>
+
+              <img
+                src="./static/images/api_examples/api_example_express_checkout_before.png"
+                style="width: min(48%, 500px)"
+              />
+
+              <img
+                src="./static/images/api_examples/api_example_express_checkout_after.png"
+                style="width: min(48%, 500px)"
+              />
+
+              <h3>API Debugging</h3>
+              <div>
+                <p>
+                  Here, we demonstrate that the agent is capable of fixing DOM
+                  resolution errors, by making specific tweaks to problematic
+                  sections of code. After the following trajectory, the agent
+                  makes a patch to the knowledge base.
+                </p>
+
+                <!-- Styles for trajectory elements -->
+                <style>
+                  .trajectory-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                    max-width: 1200px;
+                  }
+
+                  .trajectory-column {
+                    flex: 1;
+                    min-width: 300px;
+                    box-sizing: border-box;
+                  }
+
+                  .agent-block {
+                    font-family: Arial, sans-serif;
+                    background-color: #f0f0f0;
+                    padding: 1rem;
+                    border-radius: 10px;
+                    box-sizing: border-box;
+                    text-align: left;
+                  }
+
+                  .agent-title {
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    margin-bottom: 0.5em;
+                    border-bottom: 2px solid #ccc;
+                    padding-bottom: 4px;
+                  }
+
+                  .agent-url {
+                    font-style: italic;
+                    color: #555;
+                    margin-bottom: 1em;
+                  }
+
+                  .agent-reasoning ol {
+                    margin: 0;
+                    padding-left: 1.5em;
+                  }
+
+                  pre {
+                    background-color: #f4f4f4;
+                    padding: 10px;
+                    overflow-x: auto;
+                  }
+                </style>
+
+                <!-- Trajectory -->
+                <h4>Error Detection</h4>
+                <p>
+                  Here is the trajectory in which the agent attempted to execute
+                  the API, encountered a runtime error, and then fixed the API.
+                </p>
+
+                <div class="trajectory-row">
+                  <!-- Row 1 -->
+                  <div class="trajectory-column">
+                    <div class="agent-block">
+                      <p class="agent-title">State 0</p>
+                      <p class="agent-url">
+                        URL: /byteblaze/accessible−html−content−patterns/−/merge
+                        requests/14
+                      </p>
+                      <img
+                        src="./static/images/debugging_trajectory/000_state_screenshot.png"
+                        style="max-width: 100%"
+                      />
+                    </div>
+                  </div>
+                  <div class="trajectory-column">
+                    <div class="agent-block agent-reasoning">
+                      <p class="agent-title">Reasoning</p>
+                      <ol>
+                        <li>
+                          I need to delete merged branches in the specified
+                          project 'byteblaze/accessible−html−content−patterns'.
+                        </li>
+                        <li>
+                          I can utilize the
+                          <code>delete_merged_branches</code> function which is
+                          predefined to handle this operation effectively in the
+                          GitLab UI.
+                        </li>
+                        <li>
+                          Since the page indicates that I am already within the
+                          correct project context, I can proceed directly with
+                          invoking the function using the provided project path.
+                        </li>
+                      </ol>
+                      <p class="agent-title">Action</p>
+                      <pre><code class='language-python'>async def act(page):
+  # Call the function to delete merged branches
+  await delete_merged_branches(page, "byteblaze/accessible-html-content-patterns")</code></pre>
+                      <p class="agent-title">Outcome</p>
+                      <pre><code>'Error': Locator.fill: Error: strict mode violation: get_by_role("textbox") resolved to 2 elements:
+1) &lt;input id="search" type="text" name="search" autocomplete="off" placeholder="Search GitLab" data-qa-selector="search box" class="form-control gl-form-input gl-search-box-by-type-input" /&gt;
+aka get_by_placeholder("Search GitLab")
+2) &lt;input type="text" id="BVID158" autocomplete="off" aria-labelledby="input-label" data-qa-selector="delete merged branches input" class="gl-form-input gl-mt-2 form-control gl-form-input-sm" /&gt;
+aka locator("[id=\"BVID158\"]")
+Call log: ...</code></pre>
+                      <p>
+                        (<em
+                          >Explanation: Here, there is a runtime error in the </em
+                        ><code>delete_merged_branches</code
+                        ><em>
+                          function. This means the skill is incorrectly or
+                          non-robustly implemented. In this case, the selector
+                          used in the function was ambiguous.</em
+                        >)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="trajectory-row">
+                  <!-- Row 2 -->
+                  <div class="trajectory-column">
+                    <div class="agent-block">
+                      <p class="agent-title">State 1</p>
+                      <p class="agent-url">
+                        URL:
+                        /byteblaze/accessible−html−content−patterns/−/branches
+                      </p>
+                      <img
+                        src="./static/images/debugging_trajectory/001_state_screenshot.png"
+                        style="max-width: 100%"
+                      />
+                    </div>
+                  </div>
+                  <div class="trajectory-column">
+                    <div class="agent-block agent-reasoning">
+                      <p class="agent-title">Reasoning</p>
+                      <p>
+                        The page currently displays a dialog that asks for
+                        confirmation to delete all merged branches. It requires
+                        typing '<strong>delete</strong>' into an input box.
+                        After typing the confirmation text, the "Delete merged
+                        branches" button can be clicked to proceed.
+                      </p>
+                      <p class="agent-title">Action</p>
+                      <pre><code class="language-python">async def act(page):
+  # Fill the confirmation textbox with 'delete'
+  await page.get_by_role("dialog", name="Delete all merged branches?").get_by_role("textbox").fill("delete")
+  # Click the "Delete merged branches" button to confirm deletion
+  await page.get_by_role("dialog", name="Delete all merged branches?").get_by_role("button", name="Delete merged branches").click()</code></pre>
+                      <p class="agent-title">Outcome</p>
+                      <pre><code>No runtime errors.</code></pre>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="trajectory-row">
+                  <div class="trajectory-column">
+                    <div class="agent-block">
+                      <p class="agent-title">State 2</p>
+                      <p class="agent-url">
+                        URL:
+                        /byteblaze/accessible−html−content−patterns/−/branches
+                      </p>
+                      <img
+                        src="./static/images/debugging_trajectory/002_state_screenshot.png"
+                        style="max-width: 100%"
+                      />
+                    </div>
+                  </div>
+                  <div class="trajectory-column">
+                    <div class="agent-block">
+                      <p class="agent-title">Termination Result</p>
+                      <p>
+                        The merged branches have been successfully deleted in
+                        the 'byteblaze/accessible−html−content−patterns'
+                        project.
+                      </p>
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- Proposed fix -->
+                <p>
+                  <b>Agent's Proposed Fix</b>: To fix the runtime error in the
+                  generated API, the agent correctly identifies the source of
+                  the error and then makes the code more robust.
+                </p>
+                <pre>
+<code class="no-highlight" style="padding-bottom: 0; display: block;" data-highlighted="yes"><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">delete_merged_branches</span>(<span class="hljs-params">page, project_path</span>):
+    <span class="hljs-string">"""
+    Automates the deletion of merged branches in a specified GitLab project.
+    This function navigates to the branches page of the specified project and
+    deletes all merged branches
+    by interacting with the confirmation dialog that appears.
+    Args:
+    page: The Playwright page object.
+    project_path: The path of the project in GitLab (e.g., 'byteblaze/
+    accessible-html-content-patterns').
+    Usage log:
+    - Successfully used to delete merged branches in the 'a11y-syntax-
+    highlighting' project by navigating to the branches page,
+    clicking the 'Delete merged branches' button, and confirming the action
+    by typing 'delete'.
+    - Ensure the project path is correctly specified to match the URL structure
+    in GitLab.
+    - The function assumes the user is logged in and has access to the
+    specified project.
+    - Resolved an issue with strict mode violation by specifying the correct
+    textbox within the dialog.
+    """</span>
+    <span class="hljs-keyword">await</span> page.goto(<span class="hljs-string">f"/<span class="hljs-subst">{project_path}</span>/-/branches"</span>)
+    <span class="hljs-keyword">await</span> page.get_by_role(<span class="hljs-string">"button"</span>, name=<span class="hljs-string">"Delete merged branches"</span>).click()
+<span style="color: red">--  <span class="hljs-keyword">await</span> page.get_by_role("textbox")</span>
+<span style="color: green">++  <span class="hljs-keyword">await</span> page.get_by_role("dialog", name="Delete all merged branches?").get_by_role(</span>
+<span style="color: green">++    "textbox"</span>
+<span style="color: green">++  ).fill("delete")</span>
+    <span class="hljs-keyword">await</span> page.get_by_role(<span class="hljs-string">"dialog"</span>, name=<span class="hljs-string">"Delete all merged branches?"</span>).
+    get_by_role(
+      <span class="hljs-string">"button"</span>, name=<span class="hljs-string">"Delete merged branches"</span>
+    ).click()
+    <span class="hljs-keyword">await</span> asyncio.sleep(<span class="hljs-number">2</span>)</code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container is-max-desktop content">
+        <h2 class="title is-3 has-text-centered">BibTeX</h2>
+        <pre><code>
+@inproceedings{zheng2025skillweaver,
+title={Web Agents can Self-Improve by Discovering and Honing Skills},
+author={Boyuan Zheng and Michael Y. Fatemi and Xiaolong Jin and Zora Zhiruo Wang and Apurva Gandhi and Yueqi Song and Yu Gu and Jayanth Srinivasa and Gaowen Liu and Graham Neubig and Yu Su},
+booktitle={Conference on Language Modeling},
+year={2025},
+url={<michael>add link</michael>}
+}
+</code></pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="content has-text-centered"></div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is adapted from
+              <a href="https://mmmu-benchmark.github.io/">MMMU</a>,
+              <a href="https://nerfies.github.io/">Nerfies</a> and
+              <a href="https://mathvista.github.io/">MathVista</a>, licensed
+              under a
+              <a
+                rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/"
+                >Creative Commons Attribution-ShareAlike 4.0 International
+                License</a
+              >.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      .hidden {
+        display: none;
+      }
+      .sortable:hover {
+        cursor: pointer;
+      }
+      .asc::after {
+        content: " ↑";
+      }
+      .desc::after {
+        content: " ↓";
+      }
+      #toggleButton {
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        color: #555555;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 25px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition-duration: 0.4s;
+      }
+
+      #toggleButton:hover {
+        box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+          0 17px 50px 0 rgba(0, 0, 0, 0.19); /* 鼠标悬停时的阴影效果 */
+      }
+
+      /*.results-carousel {*/
+      /*overflow: hidden;*/
+      /*}*/
+
+      /*.results-carousel .item {*/
+      /*margin: 5px;*/
+      /*overflow: hidden;*/
+      /*border: 1px solid #bbb;*/
+      /*border-radius: 10px;*/
+      /*padding: 0;*/
+      /*font-size: 0;*/
+      /*}*/
+
+      /*.results-carousel video {*/
+      /*margin: 0;*/
+      /*}*/
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+        border-bottom: 2px solid #ddd;
+      }
+
+      td:hover {
+        background-color: #ffffff;
+      }
+    </style>
+  </body>
+</html>
